@@ -10,6 +10,8 @@ import json
 import streamlit as st
 from st_aggrid import AgGrid
 
+from utils import DISTANCE_MODEL, NMF_MODEL
+
 BEST_MOVIES = pd.read_csv("best_movies.csv")
 BEST_MOVIES.rename(
     index=lambda x: x+1,
@@ -17,11 +19,7 @@ BEST_MOVIES.rename(
     )
 TITLES = ["---"] + list(BEST_MOVIES['title'].sort_values()) 
 
-with open('cos_rick.pkl', 'rb') as file:
-   DISTANCE_MODEL = pickle.load(file)
 
-with open('nmf_rick.pkl', 'rb') as file:
-   NMF_MODEL = pickle.load(file)
 
 # sidebar
 with st.sidebar:
