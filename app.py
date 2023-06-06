@@ -6,11 +6,13 @@ import time
 from IPython.display import HTML
 import pickle
 import json
+import sklearn
 
 import streamlit as st
 from st_aggrid import AgGrid
 
 from utils import DISTANCE_MODEL, NMF_MODEL
+from recommenders import recommend_neighborhood, recommend_nmf, ratings
 
 BEST_MOVIES = pd.read_csv("best_movies.csv")
 BEST_MOVIES.rename(
@@ -18,7 +20,6 @@ BEST_MOVIES.rename(
     inplace=True
     )
 TITLES = ["---"] + list(BEST_MOVIES['title'].sort_values()) 
-
 
 
 # sidebar
@@ -169,4 +170,11 @@ else:
     #load user query
     user_query = json.load(open("user_query.json"))
     
-    
+    if recommend_button:
+        if recommender == "NMF Recommender":
+            recommenders = recommend_nmf(user_query, NMF_MODEL, k=10)
+        elif recommender == "Distance Recommender":
+            recommenders = recommend_neighborhood(user_query, DISTANCE_MODEL, ratings, k=10)
+        
+        for title in recommenders:
+                st.markdown(f'### {title}')
