@@ -25,3 +25,8 @@ MOVIES = [
 nmf_model = ...
 
 cos_sim_model = ...
+
+if __name__ == '__main__':
+   print(__name__)
+   print(DISTANCE_MODEL)
+   print(NMF_MODEL)
